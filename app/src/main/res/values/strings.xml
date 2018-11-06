@@ -2,36 +2,38 @@
     <string name="app_name">Inventory</string>
 
     <!--Login screen strings-->
-        <string name="act_login_msg">Login / SignUp</string>
-        <string name="edit_text_user">Email or ID</string>
-        <string name="edit_text_pass">Password</string>
-        <string name="btn_login">Login</string>
-        <string name="text_view_or">OR</string>
-        <string name="btn_create_user">Sign Up</string>
+    <string name="act_login_msg">Login / SignUp</string>
+    <string name="edit_text_user">Email or ID</string>
+    <string name="edit_text_pass">Password</string>
+    <string name="btn_login">Login</string>
+    <string name="text_view_or">OR</string>
+    <string name="btn_create_user">Sign Up</string>
 
 
     <!-- Main Activity Strings -->
 
-        <!-- Button Strings -->
-        <string name="searchButton">Search</string>
-        <string name="addItem">Add Item</string>
-        <string name="configure">Configure Beacon</string>
-        <string name="viewNearby">View Nearby</string>
-        <string name="logout">Log out</string>
+    <!-- Button Strings -->
+    <string name="searchButton">Search</string>
+    <string name="addItem">Add Item</string>
+    <string name="configure">Configure Beacon</string>
+    <string name="viewNearby">View Nearby</string>
+    <string name="logout">Log out</string>
 
     <!-- Item Info Activity Strings -->
 
-        <!-- Text View Strings -->
-        <string name="itemName">Item Name</string>
-        <string name="location">Location</string>
-        <string name="description">Description</string>
-        <string name="beacon">Beacon</string>
-        <string name="tags">Tags</string>
+    <!-- Text View Strings -->
+    <string name="itemName">Item Name</string>
+    <string name="location">Location</string>
+    <string name="description">Description</string>
+    <string name="beacon">Beacon</string>
+    <string name="tags">Tags</string>
 
-        <!-- Button Strings -->
-        <string name="checkout">Checkout</string>
-        <string name="add">Add</string>
-        <string name="remove">Remove</string>
+    <!-- Button Strings -->
+    <string name="checkout">Checkout</string>
+    <string name="add">Add</string>
+    <string name="remove">Remove</string>
 
+    <!--Checked Out Strings-->
+    <string name="checkedOutString">Checked out Items</string>
 
 </resources>

@@ -17,7 +17,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ItemInfo" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".CheckoutActivity"
+            android:label="@string/checkedOutString"></activity>
     </application>
 
 </manifest>
