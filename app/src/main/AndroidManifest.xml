@@ -20,7 +20,8 @@
         <activity android:name=".activity.MainActivity" />
         <activity
             android:name=".activity.CheckoutActivity"
-            android:label="@string/checkedOutString"></activity>
+            android:label="@string/checkedOutString" />
+        <activity android:name=".activity.SignupActivity"></activity>
     </application>
 
 </manifest>
