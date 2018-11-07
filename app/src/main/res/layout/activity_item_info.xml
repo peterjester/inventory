@@ -5,7 +5,7 @@
     android:id="@+id/itemPhotoView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ItemInfo">
+    tools:context=".activity.ItemInfo">
 
     <TextView
         android:id="@+id/itemNameView"

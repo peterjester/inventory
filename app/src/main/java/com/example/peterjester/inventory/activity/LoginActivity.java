@@ -1,7 +1,9 @@
-package com.example.peterjester.inventory;
+package com.example.peterjester.inventory.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.example.peterjester.inventory.R;
 
 public class LoginActivity extends AppCompatActivity {
 
