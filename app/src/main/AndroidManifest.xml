@@ -20,7 +20,8 @@
         <activity android:name=".MainActivity" />
         <activity
             android:name=".CheckoutActivity"
-            android:label="@string/checkedOutString"></activity>
+            android:label="@string/checkedOutString" />
+        <activity android:name=".query_items"></activity>
     </application>
 
 </manifest>
