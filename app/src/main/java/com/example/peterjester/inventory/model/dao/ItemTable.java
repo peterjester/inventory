@@ -11,7 +11,7 @@ public class ItemTable {
      */
 
     /** Defining the Table Content **/
-    public static final String TABLE_NAME = "user";
+    public static final String TABLE_NAME = "item";
     public static final String COLUMN_NAME_ID = "id";
     public static final String COLUMN_NAME_NAME = "name";
     public static final String COLUMN_NAME_DESCRIPTION = "description";
