@@ -7,6 +7,8 @@ import com.example.peterjester.inventory.R;
 
 public class ItemInfo extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
