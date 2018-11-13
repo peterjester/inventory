@@ -42,21 +42,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        allocateButtonsAndViews();
-
-        setupListeners();
-
     }
-
-    private void allocateButtonsAndViews(){
-
-    }
-
-    private void setupListeners(){
-
-
-    }
-
 
 }
 

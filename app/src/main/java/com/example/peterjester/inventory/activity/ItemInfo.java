@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.peterjester.inventory.R;
+import com.example.peterjester.inventory.model.dao.ItemPersistence;
+import com.example.peterjester.inventory.model.entity.Item;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,14 +25,19 @@ import java.util.Date;
 
 public class ItemInfo extends AppCompatActivity implements View.OnClickListener {
 
+    // SQLite
+    ItemPersistence itemPersistence = null;
+
+    // Photo flags and variables
     static final int REQUEST_TAKE_PHOTO = 1;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-
-    static int runningId = 1;
-
     String mCurrentPhotoPath = null;
     Bitmap capturedImage = null;
 
+    // Running Id for DB insertion
+    static int runningId = 1;
+
+    // view initializations
     private EditText itemView = null;
     private EditText descriptionView = null;
     private EditText locationView = null;
@@ -38,8 +45,8 @@ public class ItemInfo extends AppCompatActivity implements View.OnClickListener 
     private ImageView imageView = null;
 
     private Button addButton = null;
-    private Button checkoutButton = null;
-    private Button removeButton = null;
+//    private Button checkoutButton = null;
+//    private Button removeButton = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +61,20 @@ public class ItemInfo extends AppCompatActivity implements View.OnClickListener 
         addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(this);
 
-        checkoutButton = findViewById(R.id.checkoutButton);
-        checkoutButton.setOnClickListener(this);
-
-        removeButton = findViewById(R.id.removeButton);
-        removeButton.setOnClickListener(this);
+//        checkoutButton = findViewById(R.id.checkoutButton);
+//        checkoutButton.setOnClickListener(this);
+//
+//        removeButton = findViewById(R.id.removeButton);
+//        removeButton.setOnClickListener(this);
 
         imageView = findViewById(R.id.imageView);
         imageView.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        itemPersistence = new ItemPersistence(this);
     }
 
     @Override
@@ -70,18 +83,8 @@ public class ItemInfo extends AppCompatActivity implements View.OnClickListener 
         switch (v.getId()){
             case R.id.imageView: dispatchTakePictureIntent(); break;
             case R.id.addButton: add(); break;
-            case R.id.checkoutButton: checkout(); break;
-            case R.id.removeButton: remove(); break;
         }
 
-    }
-
-    private void remove(){
-        Toast.makeText(getApplicationContext(),"Removing item",Toast.LENGTH_LONG).show();
-    }
-
-    private void checkout(){
-        Toast.makeText(getApplicationContext(),"Checking out item",Toast.LENGTH_LONG).show();
     }
 
     private void add() {
@@ -89,6 +92,8 @@ public class ItemInfo extends AppCompatActivity implements View.OnClickListener 
         boolean validItem = verifyFields();
         if(validItem) {
             Toast.makeText(getApplicationContext(),"Adding item " + itemView.getText().toString() ,Toast.LENGTH_LONG).show();
+            insertItemIntoDb();
+            startActivity(new Intent(ItemInfo.this, CheckoutActivity.class));
         }
         else {
             Toast.makeText(getApplicationContext(),"Warning: Must enter a name and location",Toast.LENGTH_LONG).show();
@@ -110,6 +115,48 @@ public class ItemInfo extends AppCompatActivity implements View.OnClickListener 
         }
 
         return enteredValidItem;
+    }
+
+    private void insertItemIntoDb() {
+
+        // Based on previous checks, we know these are valid
+        String itemName = itemView.getText().toString();
+        String location = locationView.getText().toString();
+
+        String description = getDescription();
+        String beacon = getBeacon(); // unused currently
+
+        Item item = new Item(runningId++, itemName, description, location, capturedImage);
+
+        itemPersistence.insert(item);
+    }
+
+    /**
+     * @brief fill in description if its there, default if it isnt
+     * @return description
+     */
+    private String getDescription() {
+        String description = "No description";
+
+        if(!descriptionView.getText().toString().matches("" )) {
+            description = descriptionView.getText().toString();
+        }
+        return description;
+    }
+
+    /**
+     * @brief fill in beacon if available, default if it isnt
+     * @warning this is primarily a placeholder, unless we hit our stretch goal
+     *          of implementing the beacon technoloy
+     * @return beacon
+     */
+    private String getBeacon() {
+        String beacon = "No description";
+
+        if(!beaconView.getText().toString().matches("" )) {
+            beacon = beaconView.getText().toString();
+        }
+        return beacon;
     }
 
     private void dispatchTakePictureIntent() {
