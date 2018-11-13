@@ -28,7 +28,8 @@ public class ItemInfo extends AppCompatActivity implements View.OnClickListener 
 
     static int runningId = 1;
 
-    String mCurrentPhotoPath;
+    String mCurrentPhotoPath = null;
+    Bitmap capturedImage = null;
 
     private EditText itemView = null;
     private EditText descriptionView = null;
@@ -84,7 +85,31 @@ public class ItemInfo extends AppCompatActivity implements View.OnClickListener 
     }
 
     private void add() {
-        Toast.makeText(getApplicationContext(),"Adding item",Toast.LENGTH_LONG).show();
+
+        boolean validItem = verifyFields();
+        if(validItem) {
+            Toast.makeText(getApplicationContext(),"Adding item " + itemView.getText().toString() ,Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(getApplicationContext(),"Warning: Must enter a name and location",Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    /**
+     * @brief In order to have a valid item entered into our db, we must have
+     *          a name, and a description at minimum. This check verifies that
+     * @return true if valid, otherwise false;
+     */
+    private boolean verifyFields(){
+        boolean enteredValidItem = true;
+
+        if(itemView.getText().toString().matches("")
+            || locationView.getText().toString().matches("")){
+            enteredValidItem = false;
+        }
+
+        return enteredValidItem;
     }
 
     private void dispatchTakePictureIntent() {
@@ -130,8 +155,8 @@ public class ItemInfo extends AppCompatActivity implements View.OnClickListener 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imageView.setImageBitmap(imageBitmap);
+            capturedImage = (Bitmap) extras.get("data");
+            imageView.setImageBitmap(capturedImage);
         }
     }
 
