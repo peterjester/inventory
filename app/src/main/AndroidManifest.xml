@@ -31,6 +31,8 @@
             android:label="@string/checkedOutString" />
         <activity android:name=".activity.SignupActivity" />
         <activity android:name=".activity.ViewAllActivity"></activity>
+        <activity android:name=".activity.SignupActivity"></activity>
+        <activity android:name=".activity.query_items"></activity>
     </application>
 
 </manifest>
