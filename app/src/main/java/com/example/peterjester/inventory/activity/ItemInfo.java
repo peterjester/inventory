@@ -93,7 +93,7 @@ public class ItemInfo extends AppCompatActivity implements View.OnClickListener 
         if(validItem) {
             Toast.makeText(getApplicationContext(),"Adding item " + itemView.getText().toString() ,Toast.LENGTH_LONG).show();
             insertItemIntoDb();
-            startActivity(new Intent(ItemInfo.this, CheckoutActivity.class));
+            startActivity(new Intent(ItemInfo.this, ViewAllActivity.class));
         }
         else {
             Toast.makeText(getApplicationContext(),"Warning: Must enter a name and location",Toast.LENGTH_LONG).show();
