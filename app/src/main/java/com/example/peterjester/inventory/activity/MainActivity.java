@@ -20,6 +20,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        searchButton = (Button) findViewById(R.id.searchButton);
+        addItemButton = (Button) findViewById(R.id.addItemButton);
+        beaconButton = (Button) findViewById(R.id.configureBeaconButton);
+        viewNearbyButton = (Button) findViewById(R.id.viewNearbyItemsButton);
+        logoutButton = (Button) findViewById(R.id.logoutButton);
+
+        setupListeners();
     }
 
     private void setupListeners() {
