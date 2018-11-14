@@ -20,6 +20,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        setupListeners();
     }
 
     private void setupListeners() {
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         addItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CheckoutActivity.class));
+                startActivity(new Intent(MainActivity.this, ItemInfo.class));
             }
         });
 
