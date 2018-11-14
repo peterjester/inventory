@@ -28,7 +28,9 @@ public class ItemPersistence implements IPersistence {
         // The ContentValues object create a map of values, where the columns are the keys
         ContentValues contentValues = new ContentValues();
         contentValues.put(ItemTable.COLUMN_NAME_NAME, item.getName());
-
+        contentValues.put(ItemTable.COLUMN_NAME_DESCRIPTION, item.getDescription());
+        contentValues.put(ItemTable.COLUMN_NAME_LOCATION, item.getLocation());
+        contentValues.put(ItemTable.COLUMN_NAME_ID, item.getId());
 
         // Insert the ContentValues into the Movie table.
         sqLiteDatabase.insert(ItemTable.TABLE_NAME, null, contentValues);

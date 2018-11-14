@@ -54,6 +54,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         TextView nameView = (TextView) holder.listView.findViewById(R.id.itemNameView);
         nameView.setText(item.getName());
 
+        TextView descriptionView = (TextView) holder.listView.findViewById(R.id.descriptionView);
+        descriptionView.setText(item.getDescription());
+
+        TextView locationView = (TextView) holder.listView.findViewById(R.id.locationView);
+        locationView.setText(item.getLocation());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
