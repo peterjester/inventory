@@ -9,10 +9,6 @@ import com.example.peterjester.inventory.model.entity.Item;
 
 import java.util.ArrayList;
 
-/**
- * @author ezt157
- * It is responsible for implementing the database operations for a given table.
- */
 public class ItemPersistence implements IPersistence {
 
     public DatabaseAccess databaseAccess;
@@ -82,14 +78,13 @@ public class ItemPersistence implements IPersistence {
         if(cursor != null && cursor.moveToFirst()){
 
             do {
-                String id = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_ID));
+                int id = cursor.getInt(cursor.getColumnIndex(ItemTable.COLUMN_NAME_ID));
                 String name = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_NAME));
                 String description = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_DESCRIPTION));
                 String location = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_LOCATION));
 
-
-                // Convert to UserProfile object.
-                Item item = new Item(name, description, location);
+                // Convert to Item object.
+                Item item = new Item(id, name, description, location, null);
                 items.add(item);
 
             } while (cursor.moveToNext()) ;

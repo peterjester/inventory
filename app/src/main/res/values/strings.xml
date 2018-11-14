@@ -34,6 +34,6 @@
     <string name="remove">Remove</string>
 
     <!--Checked Out Strings-->
-    <string name="checkedOutString">Checked out Items</string>
+    <string name="checkedOutString">Items</string>
 
 </resources>

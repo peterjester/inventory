@@ -32,7 +32,7 @@ public class ItemTable {
     }
 
     public static final String delete(){
-        return "DROP TABLE IF EXISTS " +TABLE_NAME;
+        return "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 }
 
