@@ -16,6 +16,7 @@ public class ItemTable {
     public static final String COLUMN_NAME_NAME = "name";
     public static final String COLUMN_NAME_DESCRIPTION = "description";
     public static final String COLUMN_NAME_LOCATION = "location";
+    public static final String COLUMN_NAME_PHOTOPATH = "photoPath";
 
 
     public static String create(){
@@ -23,7 +24,8 @@ public class ItemTable {
                 COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 COLUMN_NAME_NAME + " TEXT," +
                 COLUMN_NAME_DESCRIPTION  + " TEXT," +
-                COLUMN_NAME_LOCATION + " TEXT)" );
+                COLUMN_NAME_LOCATION + " TEXT," +
+                COLUMN_NAME_PHOTOPATH + " TEXT)" );
     }
 
     public static String select(){

@@ -130,7 +130,7 @@ public class ItemInfo extends AppCompatActivity implements View.OnClickListener 
         String description = getDescription();
         String beacon = getBeacon(); // unused currently
 
-        Item item = new Item(runningId++, itemName, description, location, capturedImage);
+        Item item = new Item(runningId++, itemName, description, location, mCurrentPhotoPath);
 
         itemPersistence.insert(item);
     }

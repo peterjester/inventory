@@ -1,7 +1,5 @@
 package com.example.peterjester.inventory.model.entity;
 
-import android.graphics.Bitmap;
-
 public class Item {
 
     private int id;
@@ -9,14 +7,14 @@ public class Item {
     private String description = null;
     private String location = null;
 //    private List<String> tags = null;
-    private Bitmap photo = null;
+    private String photoPath = null;
 
-    public Item(int id, String name, String description, String location, Bitmap photo) {
+    public Item(int id, String name, String description, String location, String photoPath) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.location = location;
-        this.photo = photo;
+        this.photoPath = photoPath;
 //        this.tags = tags;
     }
 
@@ -36,8 +34,8 @@ public class Item {
         return location;
     }
 
-    public Bitmap getPhoto() {
-        return photo;
+    public String getPhotoPath() {
+        return photoPath;
     }
 
 //    public List<String> getTags() {

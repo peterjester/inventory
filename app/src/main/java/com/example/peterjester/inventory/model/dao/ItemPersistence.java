@@ -30,6 +30,7 @@ public class ItemPersistence implements IPersistence {
         contentValues.put(ItemTable.COLUMN_NAME_NAME, item.getName());
         contentValues.put(ItemTable.COLUMN_NAME_DESCRIPTION, item.getDescription());
         contentValues.put(ItemTable.COLUMN_NAME_LOCATION, item.getLocation());
+        contentValues.put(ItemTable.COLUMN_NAME_PHOTOPATH, item.getPhotoPath());
         contentValues.put(ItemTable.COLUMN_NAME_ID, item.getId());
 
         // Insert the ContentValues into the Movie table.
@@ -84,9 +85,10 @@ public class ItemPersistence implements IPersistence {
                 String name = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_NAME));
                 String description = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_DESCRIPTION));
                 String location = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_LOCATION));
+                String photoPath = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_PHOTOPATH));
 
                 // Convert to Item object.
-                Item item = new Item(id, name, description, location, null);
+                Item item = new Item(id, name, description, location, photoPath);
                 items.add(item);
 
             } while (cursor.moveToNext()) ;

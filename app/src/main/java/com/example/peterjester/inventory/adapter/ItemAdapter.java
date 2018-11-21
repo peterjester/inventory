@@ -1,9 +1,11 @@
 package com.example.peterjester.inventory.adapter;
 
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.peterjester.inventory.R;
@@ -59,6 +61,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
         TextView locationView = (TextView) holder.listView.findViewById(R.id.locationView);
         locationView.setText(item.getLocation());
+
+        ImageView thumbnailView = holder.listView.findViewById(R.id.thumbnailImage);
+        thumbnailView.setImageBitmap(BitmapFactory.decodeFile(item.getPhotoPath()));
     }
 
     // Return the size of your dataset (invoked by the layout manager)
