@@ -2,6 +2,7 @@ package com.example.peterjester.inventory.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,6 +25,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ItemInfo extends AppCompatActivity implements View.OnClickListener {
+
+    // File dir
+    String fileDir = null;
 
     // SQLite
     ItemPersistence itemPersistence = null;
@@ -93,7 +97,7 @@ public class ItemInfo extends AppCompatActivity implements View.OnClickListener 
         if(validItem) {
             Toast.makeText(getApplicationContext(),"Adding item " + itemView.getText().toString() ,Toast.LENGTH_LONG).show();
             insertItemIntoDb();
-            startActivity(new Intent(ItemInfo.this, CheckoutActivity.class));
+            startActivity(new Intent(ItemInfo.this, ViewAllActivity.class));
         }
         else {
             Toast.makeText(getApplicationContext(),"Warning: Must enter a name and location",Toast.LENGTH_LONG).show();
@@ -126,7 +130,7 @@ public class ItemInfo extends AppCompatActivity implements View.OnClickListener 
         String description = getDescription();
         String beacon = getBeacon(); // unused currently
 
-        Item item = new Item(runningId++, itemName, description, location, capturedImage);
+        Item item = new Item(runningId++, itemName, description, location, mCurrentPhotoPath);
 
         itemPersistence.insert(item);
     }
@@ -201,8 +205,7 @@ public class ItemInfo extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            capturedImage = (Bitmap) extras.get("data");
+            capturedImage = BitmapFactory.decodeFile(mCurrentPhotoPath);
             imageView.setImageBitmap(capturedImage);
         }
     }

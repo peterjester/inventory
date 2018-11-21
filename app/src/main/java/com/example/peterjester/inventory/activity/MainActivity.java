@@ -15,11 +15,20 @@ public class MainActivity extends AppCompatActivity {
     private Button beaconButton = null;
     private Button viewNearbyButton = null;
     private Button logoutButton = null;
+    private Button viewAllButton = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        searchButton = findViewById(R.id.searchButton);
+        addItemButton = findViewById(R.id.addItemButton);
+        beaconButton = findViewById(R.id.configureBeaconButton);
+        viewNearbyButton = findViewById(R.id.viewNearbyItemsButton);
+        logoutButton = findViewById(R.id.logoutButton);
+        viewAllButton = findViewById(R.id.viewAllItems);
+
         setupListeners();
     }
 
@@ -59,5 +68,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        viewAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ViewAllActivity.class));
+            }
+        });
     }
 }
