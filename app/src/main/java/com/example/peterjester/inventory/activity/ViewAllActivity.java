@@ -40,6 +40,5 @@ public class ViewAllActivity extends AppCompatActivity {
         mAdapter = new ItemAdapter(items);
         mRecyclerView.setAdapter(mAdapter);
 
-
     }
 }

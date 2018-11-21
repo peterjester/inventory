@@ -2,6 +2,7 @@ package com.example.peterjester.inventory.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,6 +25,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ItemInfo extends AppCompatActivity implements View.OnClickListener {
+
+    // File dir
+    String fileDir = null;
 
     // SQLite
     ItemPersistence itemPersistence = null;
@@ -201,8 +205,7 @@ public class ItemInfo extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            capturedImage = (Bitmap) extras.get("data");
+            capturedImage = BitmapFactory.decodeFile(mCurrentPhotoPath);
             imageView.setImageBitmap(capturedImage);
         }
     }
