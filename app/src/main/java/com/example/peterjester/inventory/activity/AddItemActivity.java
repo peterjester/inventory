@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ItemInfo extends AppCompatActivity implements View.OnClickListener {
+public class AddItemActivity extends AppCompatActivity implements View.OnClickListener {
 
     // File dir
     String fileDir = null;
@@ -49,13 +49,11 @@ public class ItemInfo extends AppCompatActivity implements View.OnClickListener 
     private ImageView imageView = null;
 
     private Button addButton = null;
-//    private Button checkoutButton = null;
-//    private Button removeButton = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_info);
+        setContentView(R.layout.activity_item_add);
 
         itemView = findViewById(R.id.itemEditView);
         descriptionView = findViewById(R.id.descriptionEditView);
@@ -64,12 +62,6 @@ public class ItemInfo extends AppCompatActivity implements View.OnClickListener 
 
         addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(this);
-
-//        checkoutButton = findViewById(R.id.checkoutButton);
-//        checkoutButton.setOnClickListener(this);
-//
-//        removeButton = findViewById(R.id.removeButton);
-//        removeButton.setOnClickListener(this);
 
         imageView = findViewById(R.id.imageView);
         imageView.setOnClickListener(this);
@@ -97,7 +89,7 @@ public class ItemInfo extends AppCompatActivity implements View.OnClickListener 
         if(validItem) {
             Toast.makeText(getApplicationContext(),"Adding item " + itemView.getText().toString() ,Toast.LENGTH_LONG).show();
             insertItemIntoDb();
-            startActivity(new Intent(ItemInfo.this, ViewAllActivity.class));
+            startActivity(new Intent(AddItemActivity.this, ViewAllActivity.class));
         }
         else {
             Toast.makeText(getApplicationContext(),"Warning: Must enter a name and location",Toast.LENGTH_LONG).show();

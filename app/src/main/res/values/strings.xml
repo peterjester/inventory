@@ -17,6 +17,7 @@
     <string name="addItem">Add Item</string>
     <string name="configure">Configure Beacon</string>
     <string name="viewNearby">View Nearby</string>
+    <string name="viewAll">View All</string>
     <string name="logout">Log out</string>
 
     <!-- Item Info Activity Strings -->

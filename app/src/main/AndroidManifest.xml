@@ -35,14 +35,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ItemInfo" />
+        <activity android:name=".activity.AddItemActivity" />
         <activity android:name=".activity.MainActivity" />
         <activity
             android:name=".activity.CheckoutActivity"
             android:label="@string/checkedOutString" />
         <activity android:name=".activity.SignupActivity" />
         <activity android:name=".activity.ViewAllActivity"></activity>
-        <activity android:name=".activity.query_items"></activity>
+        <activity android:name=".activity.SearchItemActivity"></activity>
     </application>
 
 </manifest>
