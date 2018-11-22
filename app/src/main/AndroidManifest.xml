@@ -42,7 +42,7 @@
             android:label="@string/checkedOutString" />
         <activity android:name=".activity.SignupActivity" />
         <activity android:name=".activity.ViewAllActivity"></activity>
-        <activity android:name=".activity.query_items"></activity>
+        <activity android:name=".activity.SearchItemActivity"></activity>
     </application>
 
 </manifest>

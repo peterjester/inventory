@@ -123,5 +123,4 @@ public class ItemPersistence implements IPersistence {
         return cursor;
     }
 
-
 }
