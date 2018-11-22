@@ -5,7 +5,7 @@
     android:id="@+id/itemPhotoView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ItemInfo">
+    tools:context=".activity.AddItemActivity">
 
     <ImageView
         android:id="@+id/imageView"

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.example.peterjester.inventory.model.entity.Item;
 
@@ -96,4 +97,31 @@ public class ItemPersistence implements IPersistence {
 
         return items;
     }
+
+    public Cursor getWordMatches(String query, String[] columns) {
+        String selection = ItemTable.COLUMN_NAME_NAME + " MATCH ?";
+        String[] selectionArgs = new String[] {query+"*"};
+
+        return query(selection, selectionArgs, columns);
+    }
+
+    private Cursor query(String selection, String[] selectionArgs, String[] columns) {
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        builder.setTables(ItemTable.TABLE_NAME);
+
+        SQLiteDatabase sqLiteDatabase = databaseAccess.getWritableDatabase();
+
+        Cursor cursor = builder.query(sqLiteDatabase,
+                columns, selection, selectionArgs, null, null, null);
+
+        if (cursor == null) {
+            return null;
+        } else if (!cursor.moveToFirst()) {
+            cursor.close();
+            return null;
+        }
+        return cursor;
+    }
+
+
 }
