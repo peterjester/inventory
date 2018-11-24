@@ -10,20 +10,23 @@ public class DatabaseAccess extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "users.db";
 
+    private SQLiteDatabase mDatabase = null;
+    private final Context mHelperContext;
 
     public DatabaseAccess(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mHelperContext = context;
     }
 
     public DatabaseAccess(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mHelperContext = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Create the Movie table once the database is instantiated.
-        // Create the User table once the database is instantiated.
-        db.execSQL(ItemTable.create());
+        mDatabase = db;
+        db.execSQL(ItemTable.createVirtual());
     }
 
     @Override

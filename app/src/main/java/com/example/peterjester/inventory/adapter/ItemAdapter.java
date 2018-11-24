@@ -71,4 +71,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     public int getItemCount() {
         return mDataset.size();
     }
+
+    public void updateList(ArrayList data) {
+        mDataset = data;
+        notifyDataSetChanged();
+    }
 }

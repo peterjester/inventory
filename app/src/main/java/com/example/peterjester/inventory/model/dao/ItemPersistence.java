@@ -98,6 +98,42 @@ public class ItemPersistence implements IPersistence {
         return items;
     }
 
+    public ArrayList getDbMatchesForQuery(String query)
+    {
+        // Create ArrayList of movies
+        ArrayList<Item> items = null;
+
+        // Instantiate the database.
+        SQLiteDatabase sqLiteDatabase = databaseAccess.getWritableDatabase();
+
+        Cursor cursor = getWordMatches(query,null);
+
+        // It will iterate since the first record gathered from the database.
+        cursor.moveToFirst();
+
+        // Check if there exist other records in the cursor
+        items = new ArrayList<>();
+
+        if(cursor != null && cursor.moveToFirst()){
+
+            do {
+                int id = cursor.getInt(cursor.getColumnIndex(ItemTable.COLUMN_NAME_ID));
+                String name = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_NAME));
+                String description = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_DESCRIPTION));
+                String location = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_LOCATION));
+                String photoPath = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_PHOTOPATH));
+
+                // Convert to Item object.
+                Item item = new Item(id, name, description, location, photoPath);
+                items.add(item);
+
+            } while (cursor.moveToNext()) ;
+        }
+
+        return items;
+    }
+
+
     public Cursor getWordMatches(String query, String[] columns) {
         String selection = ItemTable.COLUMN_NAME_NAME + " MATCH ?";
         String[] selectionArgs = new String[] {query+"*"};
