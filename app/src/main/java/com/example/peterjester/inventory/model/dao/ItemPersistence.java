@@ -106,7 +106,6 @@ public class ItemPersistence implements IPersistence {
         // Instantiate the database.
         SQLiteDatabase sqLiteDatabase = databaseAccess.getWritableDatabase();
 
-
         Cursor cursor = getWordMatches(query,null);
 
         // It will iterate since the first record gathered from the database.

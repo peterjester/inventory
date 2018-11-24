@@ -28,6 +28,16 @@ public class ItemTable {
                 COLUMN_NAME_PHOTOPATH + " TEXT)" );
     }
 
+    public static String createVirtual(){
+        return new String ( "CREATE VIRTUAL TABLE " + TABLE_NAME +
+                " USING fts3 (" +
+                COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_NAME_NAME + " TEXT," +
+                COLUMN_NAME_DESCRIPTION  + " TEXT," +
+                COLUMN_NAME_LOCATION + " TEXT," +
+                COLUMN_NAME_PHOTOPATH + " TEXT)" );
+    }
+
     public static String select(){
         return new String("SELECT * FROM " + TABLE_NAME);
 

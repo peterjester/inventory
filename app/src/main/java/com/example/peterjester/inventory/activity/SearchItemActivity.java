@@ -18,7 +18,7 @@ public class SearchItemActivity extends AppCompatActivity {
     private SearchView searchView = null;
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private ItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Item> items;
 
@@ -64,8 +64,7 @@ public class SearchItemActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 items = persistenceProfile.getDbMatchesForQuery(newText);
-                mAdapter = new ItemAdapter(items);
-                mRecyclerView.setAdapter(mAdapter);
+//                mAdapter.updateList(items);
                 return false;
             }
         });
