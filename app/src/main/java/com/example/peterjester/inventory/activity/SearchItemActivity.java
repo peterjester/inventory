@@ -22,6 +22,8 @@ public class SearchItemActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Item> items;
 
+    private ItemPersistence persistenceProfile = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +42,7 @@ public class SearchItemActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        ItemPersistence persistenceProfile = new ItemPersistence(this);
+        persistenceProfile = new ItemPersistence(this);
         items = persistenceProfile.getDataFromDB();
         mAdapter = new ItemAdapter(items);
         mRecyclerView.setAdapter(mAdapter);
@@ -61,8 +63,9 @@ public class SearchItemActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // @todo add in adapter, and filter data based on text input
-//                resultsText.setText(newText);
+                items = persistenceProfile.getDbMatchesForQuery(newText);
+                mAdapter = new ItemAdapter(items);
+                mRecyclerView.setAdapter(mAdapter);
                 return false;
             }
         });
