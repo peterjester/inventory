@@ -63,7 +63,15 @@ public class SearchItemActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                items = persistenceProfile.getDbMatchesForQuery(newText);
+
+                // If the search box is empty, show all
+                if(newText.matches("")){
+                    items = persistenceProfile.getDataFromDB();
+                }
+                else {
+                    items = persistenceProfile.getDbMatchesForQuery(newText);
+
+                }
                 mAdapter.updateList(items);
                 return false;
             }
