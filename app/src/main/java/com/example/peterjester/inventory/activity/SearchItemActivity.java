@@ -64,7 +64,7 @@ public class SearchItemActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 items = persistenceProfile.getDbMatchesForQuery(newText);
-//                mAdapter.updateList(items);
+                mAdapter.updateList(items);
                 return false;
             }
         });
