@@ -89,7 +89,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         if(validItem) {
             Toast.makeText(getApplicationContext(),"Adding item " + itemView.getText().toString() ,Toast.LENGTH_LONG).show();
             insertItemIntoDb();
-            startActivity(new Intent(AddItemActivity.this, ViewAllActivity.class));
+            startActivity(new Intent(AddItemActivity.this, MainActivity.class));
         }
         else {
             Toast.makeText(getApplicationContext(),"Warning: Must enter a name and location",Toast.LENGTH_LONG).show();
