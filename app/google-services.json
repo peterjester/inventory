@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "63868713376",
+    "firebase_url": "https://androidinventoryapp.firebaseio.com",
+    "project_id": "androidinventoryapp",
+    "storage_bucket": "androidinventoryapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:63868713376:android:58ee91cf1ff30813",
+        "android_client_info": {
+          "package_name": "com.example.peterjester.inventory"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "63868713376-g03ltedua1dhml9rv18hm6adqf3k3256.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.peterjester.inventory",
+            "certificate_hash": "6f4bb5f05fdeb698addc61490006ba83b057c445"
+          }
+        },
+        {
+          "client_id": "63868713376-c23u1lnhve6ekjt7194mavdb1e1hghcp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmmN2vzRRNz6Y_nyFnrT-B3BUlWDbWNbY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "63868713376-c23u1lnhve6ekjt7194mavdb1e1hghcp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
