@@ -44,6 +44,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         loginButton.setOnClickListener(this);
         signUpButton.setOnClickListener(this);
+
+//        signUpButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(LoginActivity.this, SignupActivity.class));
+//            }
+//        });
     }
 
 
