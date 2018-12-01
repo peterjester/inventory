@@ -2,20 +2,30 @@ package com.example.peterjester.inventory.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.example.peterjester.inventory.R;
+import com.example.peterjester.inventory.adapter.ItemAdapter;
+import com.example.peterjester.inventory.model.dao.ItemPersistence;
 import com.example.peterjester.inventory.model.entity.Item;
 
 import java.util.ArrayList;
 
 public class ViewAllActivity extends AppCompatActivity {
 
+    public static final String TAG_SELECTED_ITEM = "SELECTED_ITEM";
+    public static final String TAG_RECYCLER = "RECYCLER_VIEW";
+
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private ItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Item> items;
+
+    private ItemPersistence persistenceProfile = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +42,49 @@ public class ViewAllActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        // specify an adapter (see also next example)
-//        ItemPersistence persistenceProfile = new ItemPersistence(this);
-//        items = persistenceProfile.getDataFromDB();
-//        mAdapter = new ItemAdapter(items);
-//        mRecyclerView.setAdapter(mAdapter);
+        buildRecyclerView();
 
     }
+
+    /** Building the RecyclerView and RecyclerViewAdapter based on the dataset. **/
+    private void buildRecyclerView(){
+        Log.i(TAG_RECYCLER, "buildRecyclerView:called" );
+        this.mRecyclerView = findViewById(R.id.viewAllView);
+
+        persistenceProfile = new ItemPersistence();
+        items = persistenceProfile.getDataFromDB();
+
+        this.mAdapter = new ItemAdapter(items);
+
+        persistenceProfile.addAdapter(mAdapter);
+        mLayoutManager = new LinearLayoutManager(this);
+        this.mRecyclerView.setLayoutManager(mLayoutManager);
+        this.mRecyclerView.setHasFixedSize(true);
+        this.mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        this.mRecyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
+        this.mRecyclerView.setAdapter(mAdapter);
+
+
+//        // Creating a new listener for the RecyclerView
+//        mRecyclerView.addOnItemTouchListener(
+//                new RecyclerVIewItemClickListener(getApplicationContext(), mRecyclerView, new RecyclerOnItemClickListener() {
+//                    @Override public void onItemClick(View view, int position) {
+//                        int itemPosition = mRecyclerView.getChildLayoutPosition(view);
+//                        MapLocation item = mapLocations.get(itemPosition);
+//                        Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_LONG).show();
+//                    }
+//
+//                    @Override public void onLongItemClick(View view, int position) {
+//
+//                        // TODO Create the intent for the broadcast.
+//                        Intent intent = new Intent(MapLocationListActivity.this, MapActivity.class);
+//                        int itemPosition = mRecyclerView.getChildLayoutPosition(view);
+//                        MapLocation item = mapLocations.get(itemPosition);
+//                        intent.putExtra(TAG_SELECTED_ITEM, item);
+//                        startActivity(intent);
+//                    }
+//                })
+//        );
+    }
+
 }

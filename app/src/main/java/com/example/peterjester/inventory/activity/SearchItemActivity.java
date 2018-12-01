@@ -13,8 +13,6 @@ import com.example.peterjester.inventory.R;
 import com.example.peterjester.inventory.adapter.ItemAdapter;
 import com.example.peterjester.inventory.model.dao.ItemPersistence;
 import com.example.peterjester.inventory.model.entity.Item;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -29,10 +27,6 @@ public class SearchItemActivity extends AppCompatActivity {
     private ItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Item> items;
-
-    //Firebase
-    private FirebaseDatabase firebaseDatabase = null;
-    private DatabaseReference databaseReference = null;
 
     private ItemPersistence persistenceProfile = null;
 
