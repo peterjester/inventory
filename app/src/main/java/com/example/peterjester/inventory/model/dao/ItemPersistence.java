@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.peterjester.inventory.adapter.ItemAdapter;
 import com.example.peterjester.inventory.model.entity.Item;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,6 +23,8 @@ public class ItemPersistence implements IPersistence {
     ItemAdapter adapter;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    ;
     DatabaseReference ref = database.getReference();
     ArrayList<Item> items = new ArrayList<>();
 
@@ -39,7 +42,9 @@ public class ItemPersistence implements IPersistence {
         // Cast the generic object to have access to the movie info.
         Item item = (Item) o;
 
-        ref.child(item.getName()).setValue(item);
+
+
+        ref.child(auth.getUid()).child(item.getName()).setValue(item);
 
         /** Deprecated */
 //        SQLiteDatabase sqLiteDatabase = databaseAccess.getWritableDatabase();
@@ -85,7 +90,7 @@ public class ItemPersistence implements IPersistence {
         // Create ArrayList of movies
 
         // Read from the database
-        ref.addChildEventListener(new ChildEventListener() {
+        ref.child(auth.getUid()).addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -163,7 +168,7 @@ public class ItemPersistence implements IPersistence {
     public ArrayList getDbMatchesForQuery(String queryString)
     {
 
-        ref.orderByChild("name").startAt(queryString).endAt(queryString + "~").addChildEventListener(new ChildEventListener() {
+        ref.child(auth.getUid()).orderByChild("name").startAt(queryString).endAt(queryString + "~").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Item item = dataSnapshot.getValue(Item.class);
