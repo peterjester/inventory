@@ -7,12 +7,16 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.peterjester.inventory.R;
 import com.example.peterjester.inventory.adapter.ItemAdapter;
 import com.example.peterjester.inventory.model.dao.ItemPersistence;
 import com.example.peterjester.inventory.model.entity.Item;
+import com.example.peterjester.inventory.recycler.RecyclerOnItemClickListener;
+import com.example.peterjester.inventory.recycler.RecyclerVIewItemClickListener;
 
 import java.util.ArrayList;
 
@@ -90,26 +94,17 @@ public class SearchItemActivity extends AppCompatActivity {
         this.mRecyclerView.setAdapter(mAdapter);
 
 
-//        // Creating a new listener for the RecyclerView
-//        mRecyclerView.addOnItemTouchListener(
-//                new RecyclerVIewItemClickListener(getApplicationContext(), mRecyclerView, new RecyclerOnItemClickListener() {
-//                    @Override public void onItemClick(View view, int position) {
-//                        int itemPosition = mRecyclerView.getChildLayoutPosition(view);
-//                        MapLocation item = mapLocations.get(itemPosition);
-//                        Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_LONG).show();
-//                    }
-//
-//                    @Override public void onLongItemClick(View view, int position) {
-//
-//                        // TODO Create the intent for the broadcast.
-//                        Intent intent = new Intent(MapLocationListActivity.this, MapActivity.class);
-//                        int itemPosition = mRecyclerView.getChildLayoutPosition(view);
-//                        MapLocation item = mapLocations.get(itemPosition);
-//                        intent.putExtra(TAG_SELECTED_ITEM, item);
-//                        startActivity(intent);
-//                    }
-//                })
-//        );
+        // Creating a new listener for the RecyclerView
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerVIewItemClickListener(getApplicationContext(), mRecyclerView, new RecyclerOnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        int itemPosition = mRecyclerView.getChildLayoutPosition(view);
+                        Item item = items.get(itemPosition);
+                        Toast.makeText(getApplicationContext(), item.getName(), Toast.LENGTH_LONG).show();
+                    }
+
+                })
+        );
     }
 
 }
