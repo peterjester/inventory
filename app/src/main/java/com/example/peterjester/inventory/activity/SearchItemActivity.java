@@ -62,13 +62,14 @@ public class SearchItemActivity extends AppCompatActivity {
 
                 // If the search box is empty, show all
                 if(newText.matches("")){
+                    items.clear();
                     items = persistenceProfile.getDataFromDB();
                 }
                 else {
+                    items.clear();
                     items = persistenceProfile.getDbMatchesForQuery(newText);
-
                 }
-                mAdapter.updateList(items);
+//                mAdapter.updateList(items);
                 return false;
             }
         });

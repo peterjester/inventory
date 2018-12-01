@@ -129,7 +129,7 @@ public class ItemPersistence implements IPersistence {
 
         return items;
 
-
+/**Deprecate */
         // Instatiate the database.
 //        SQLiteDatabase sqLiteDatabase = databaseAccess.getWritableDatabase();
 
@@ -160,11 +160,48 @@ public class ItemPersistence implements IPersistence {
 
     }
 
-    public ArrayList getDbMatchesForQuery(String query)
+    public ArrayList getDbMatchesForQuery(String queryString)
     {
-        // Create ArrayList of movies
-        ArrayList<Item> items = null;
 
+        ref.orderByChild("name").startAt(queryString).endAt(queryString + "~").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Item item = dataSnapshot.getValue(Item.class);
+
+                items.add(item); // Adding a new element from the collection
+
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                Log.d("hello database", "onChildRemoved: ");
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("hello database", "onChildRemoved: ");
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("On cancelled", "Failed to read value.", error.toException());
+            }
+
+        });
+
+        return items;
+
+        /**Deprecated*/
         // Instantiate the database.
 //        SQLiteDatabase sqLiteDatabase = databaseAccess.getWritableDatabase();
 
@@ -192,7 +229,6 @@ public class ItemPersistence implements IPersistence {
 //            } while (cursor.moveToNext()) ;
 //        }
 
-        return items;
     }
 
 
