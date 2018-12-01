@@ -9,6 +9,10 @@ public class Item {
 //    private List<String> tags = null;
     private String photoPath = null;
 
+    public Item() {
+        // default constructor
+    }
+
     public Item(int id, String name, String description, String location, String photoPath) {
         this.id = id;
         this.name = name;

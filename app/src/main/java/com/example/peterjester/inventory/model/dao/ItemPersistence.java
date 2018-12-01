@@ -4,8 +4,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.example.peterjester.inventory.model.entity.Item;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -16,7 +22,9 @@ public class ItemPersistence implements IPersistence {
     public DatabaseAccess databaseAccess;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference ref = database.getReference("items");
+    DatabaseReference ref = database.getReference();
+    ArrayList<Item> items = null;
+
 
     public ItemPersistence(Context context){
         this.databaseAccess = new DatabaseAccess(context);
@@ -28,15 +36,7 @@ public class ItemPersistence implements IPersistence {
         // Cast the generic object to have access to the movie info.
         Item item = (Item) o;
 
-//        HashMap<String, Item> nameToItem = new HashMap<>();
-//
-//        nameToItem.put(item.getName(), item);
-
         ref.child(item.getName()).setValue(item);
-
-//        ref.setValue(nameToItem);
-
-//        ref.
 
         /** Deprecated */
 //        SQLiteDatabase sqLiteDatabase = databaseAccess.getWritableDatabase();
@@ -80,37 +80,84 @@ public class ItemPersistence implements IPersistence {
     public ArrayList getDataFromDB() {
 
         // Create ArrayList of movies
-        ArrayList<Item> items = null;
 
-        // Instatiate the database.
-        SQLiteDatabase sqLiteDatabase = databaseAccess.getWritableDatabase();
+        // Read from the database
+        ref.addChildEventListener(new ChildEventListener() {
 
-        // Gather all the records found for the user table.
-        Cursor cursor = sqLiteDatabase.rawQuery(ItemTable.select(), null);
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("hello database", "onChildAdded: ");
+//                This method is called once with the initial value and again
+//                 whenever data at this location is updated.
+                Log.d("Number of elements in database", "onDataChange: " + dataSnapshot.getChildrenCount());
 
-        // It will iterate since the first record gathered from the database.
-        cursor.moveToFirst();
+                Item item = dataSnapshot.getValue(Item.class);
 
-        // Check if there exist other records in the cursor
-        items = new ArrayList<>();
-
-        if(cursor != null && cursor.moveToFirst()){
-
-            do {
-                int id = cursor.getInt(cursor.getColumnIndex(ItemTable.COLUMN_NAME_ID));
-                String name = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_NAME));
-                String description = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_DESCRIPTION));
-                String location = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_LOCATION));
-                String photoPath = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_PHOTOPATH));
-
-                // Convert to Item object.
-                Item item = new Item(id, name, description, location, photoPath);
                 items.add(item);
 
-            } while (cursor.moveToNext()) ;
-        }
+//                Log.d("Reading location", "Value is: " + location.getDescription());
+//                Log.d("Reading latitude", "Value is: " + location.getLatitude());
+//                Log.d("Reading longitude", "Value is: " + location.getLongitude());
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                Log.d("hello database", "onChildRemoved: ");
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("hello database", "onChildRemoved: ");
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("On cancelled", "Failed to read value.", error.toException());
+            }
+
+        });
 
         return items;
+
+
+        // Instatiate the database.
+//        SQLiteDatabase sqLiteDatabase = databaseAccess.getWritableDatabase();
+
+        // Gather all the records found for the user table.
+//        Cursor cursor = sqLiteDatabase.rawQuery(ItemTable.select(), null);
+//
+//        // It will iterate since the first record gathered from the database.
+//        cursor.moveToFirst();
+//
+//        // Check if there exist other records in the cursor
+//        items = new ArrayList<>();
+//
+//        if(cursor != null && cursor.moveToFirst()){
+//
+//            do {
+//                int id = cursor.getInt(cursor.getColumnIndex(ItemTable.COLUMN_NAME_ID));
+//                String name = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_NAME));
+//                String description = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_DESCRIPTION));
+//                String location = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_LOCATION));
+//                String photoPath = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_PHOTOPATH));
+//
+//                // Convert to Item object.
+//                Item item = new Item(id, name, description, location, photoPath);
+//                items.add(item);
+//
+//            } while (cursor.moveToNext()) ;
+//        }
+
     }
 
     public ArrayList getDbMatchesForQuery(String query)
