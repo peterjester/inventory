@@ -6,8 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.peterjester.inventory.R;
-import com.example.peterjester.inventory.adapter.ItemAdapter;
-import com.example.peterjester.inventory.model.dao.ItemPersistence;
 import com.example.peterjester.inventory.model.entity.Item;
 
 import java.util.ArrayList;
@@ -35,10 +33,10 @@ public class ViewAllActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        ItemPersistence persistenceProfile = new ItemPersistence(this);
-        items = persistenceProfile.getDataFromDB();
-        mAdapter = new ItemAdapter(items);
-        mRecyclerView.setAdapter(mAdapter);
+//        ItemPersistence persistenceProfile = new ItemPersistence(this);
+//        items = persistenceProfile.getDataFromDB();
+//        mAdapter = new ItemAdapter(items);
+//        mRecyclerView.setAdapter(mAdapter);
 
     }
 }

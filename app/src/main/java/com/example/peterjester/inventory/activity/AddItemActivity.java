@@ -70,7 +70,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onStart() {
         super.onStart();
-        itemPersistence = new ItemPersistence(this);
+        itemPersistence = new ItemPersistence();
     }
 
     @Override

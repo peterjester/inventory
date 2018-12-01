@@ -1,13 +1,11 @@
 package com.example.peterjester.inventory.model.dao;
 
-import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.peterjester.inventory.adapter.ItemAdapter;
 import com.example.peterjester.inventory.model.entity.Item;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -19,15 +17,20 @@ import java.util.ArrayList;
 
 public class ItemPersistence implements IPersistence {
 
-    public DatabaseAccess databaseAccess;
+//    public DatabaseAccess databaseAccess;
+
+    ItemAdapter adapter;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference();
-    ArrayList<Item> items = null;
+    ArrayList<Item> items = new ArrayList<>();
 
 
-    public ItemPersistence(Context context){
-        this.databaseAccess = new DatabaseAccess(context);
+    public ItemPersistence(){
+    }
+
+    public void addAdapter(ItemAdapter adapter) {
+        this.adapter = adapter;
     }
 
     @Override
@@ -67,7 +70,7 @@ public class ItemPersistence implements IPersistence {
 //        String [] selectionArgs = { item.getName().trim() };
 
         // Get database instance
-        SQLiteDatabase sqLiteDatabase = databaseAccess.getWritableDatabase();
+//        SQLiteDatabase sqLiteDatabase = databaseAccess.getWritableDatabase();
 //        sqLiteDatabase.delete(ItemTable.TABLE_NAME, selection, selectionArgs);
     }
 
@@ -86,18 +89,15 @@ public class ItemPersistence implements IPersistence {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.d("hello database", "onChildAdded: ");
-//                This method is called once with the initial value and again
-//                 whenever data at this location is updated.
-                Log.d("Number of elements in database", "onDataChange: " + dataSnapshot.getChildrenCount());
-
+                // Get the current location (based on the selected dataset available on firebase
                 Item item = dataSnapshot.getValue(Item.class);
 
-                items.add(item);
+                items.add(item); // Adding a new element from the collection
 
-//                Log.d("Reading location", "Value is: " + location.getDescription());
-//                Log.d("Reading latitude", "Value is: " + location.getLatitude());
-//                Log.d("Reading longitude", "Value is: " + location.getLongitude());
+
+                /** Once the task runs assynchronously, we need to notify the adapter of
+                 any changes in the dataset, so it will automatically update the UI. **/
+                adapter.notifyDataSetChanged();
 
             }
 
@@ -166,31 +166,31 @@ public class ItemPersistence implements IPersistence {
         ArrayList<Item> items = null;
 
         // Instantiate the database.
-        SQLiteDatabase sqLiteDatabase = databaseAccess.getWritableDatabase();
+//        SQLiteDatabase sqLiteDatabase = databaseAccess.getWritableDatabase();
 
-        Cursor cursor = getWordMatches(query,null);
-
-        // It will iterate since the first record gathered from the database.
-        cursor.moveToFirst();
-
-        // Check if there exist other records in the cursor
-        items = new ArrayList<>();
-
-        if(cursor != null && cursor.moveToFirst()){
-
-            do {
-                int id = cursor.getInt(cursor.getColumnIndex(ItemTable.COLUMN_NAME_ID));
-                String name = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_NAME));
-                String description = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_DESCRIPTION));
-                String location = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_LOCATION));
-                String photoPath = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_PHOTOPATH));
-
-                // Convert to Item object.
-                Item item = new Item(id, name, description, location, photoPath);
-                items.add(item);
-
-            } while (cursor.moveToNext()) ;
-        }
+//        Cursor cursor = getWordMatches(query,null);
+//
+//        // It will iterate since the first record gathered from the database.
+//        cursor.moveToFirst();
+//
+//        // Check if there exist other records in the cursor
+//        items = new ArrayList<>();
+//
+//        if(cursor != null && cursor.moveToFirst()){
+//
+//            do {
+//                int id = cursor.getInt(cursor.getColumnIndex(ItemTable.COLUMN_NAME_ID));
+//                String name = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_NAME));
+//                String description = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_DESCRIPTION));
+//                String location = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_LOCATION));
+//                String photoPath = cursor.getString(cursor.getColumnIndex(ItemTable.COLUMN_NAME_PHOTOPATH));
+//
+//                // Convert to Item object.
+//                Item item = new Item(id, name, description, location, photoPath);
+//                items.add(item);
+//
+//            } while (cursor.moveToNext()) ;
+//        }
 
         return items;
     }
@@ -204,21 +204,22 @@ public class ItemPersistence implements IPersistence {
     }
 
     private Cursor query(String selection, String[] selectionArgs, String[] columns) {
-        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-        builder.setTables(ItemTable.TABLE_NAME);
-
-        SQLiteDatabase sqLiteDatabase = databaseAccess.getWritableDatabase();
-
-        Cursor cursor = builder.query(sqLiteDatabase,
-                columns, selection, selectionArgs, null, null, null);
-
-        if (cursor == null) {
-            return null;
-        } else if (!cursor.moveToFirst()) {
-            cursor.close();
-            return null;
-        }
-        return cursor;
+//        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+//        builder.setTables(ItemTable.TABLE_NAME);
+//
+////        SQLiteDatabase sqLiteDatabase = databaseAccess.getWritableDatabase();
+//
+//        Cursor cursor = builder.query(sqLiteDatabase,
+//                columns, selection, selectionArgs, null, null, null);
+//
+//        if (cursor == null) {
+//            return null;
+//        } else if (!cursor.moveToFirst()) {
+//            cursor.close();
+//            return null;
+//        }
+        return null;
     }
+
 
 }
