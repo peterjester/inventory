@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "63868713376-rh7pf9t6fbep2qb28s4bbd6bdp6u2j31.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.peterjester.inventory",
+            "certificate_hash": "8950a674a7642b850fff6dd11bb26706a1b458a2"
+          }
+        },
+        {
           "client_id": "63868713376-c23u1lnhve6ekjt7194mavdb1e1hghcp.apps.googleusercontent.com",
           "client_type": 3
         }

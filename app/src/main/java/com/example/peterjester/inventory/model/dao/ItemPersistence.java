@@ -1,18 +1,22 @@
 package com.example.peterjester.inventory.model.dao;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.example.peterjester.inventory.model.entity.Item;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 public class ItemPersistence implements IPersistence {
 
     public DatabaseAccess databaseAccess;
+
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference ref = database.getReference("items");
 
     public ItemPersistence(Context context){
         this.databaseAccess = new DatabaseAccess(context);
@@ -24,20 +28,31 @@ public class ItemPersistence implements IPersistence {
         // Cast the generic object to have access to the movie info.
         Item item = (Item) o;
 
-        SQLiteDatabase sqLiteDatabase = databaseAccess.getWritableDatabase();
+//        HashMap<String, Item> nameToItem = new HashMap<>();
+//
+//        nameToItem.put(item.getName(), item);
 
-        // The ContentValues object create a map of values, where the columns are the keys
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(ItemTable.COLUMN_NAME_NAME, item.getName());
-        contentValues.put(ItemTable.COLUMN_NAME_DESCRIPTION, item.getDescription());
-        contentValues.put(ItemTable.COLUMN_NAME_LOCATION, item.getLocation());
-        contentValues.put(ItemTable.COLUMN_NAME_PHOTOPATH, item.getPhotoPath());
-        contentValues.put(ItemTable.COLUMN_NAME_ID, item.getId());
+        ref.child(item.getName()).setValue(item);
 
-        // Insert the ContentValues into the Movie table.
-        sqLiteDatabase.insert(ItemTable.TABLE_NAME, null, contentValues);
+//        ref.setValue(nameToItem);
 
-        sqLiteDatabase.close();
+//        ref.
+
+        /** Deprecated */
+//        SQLiteDatabase sqLiteDatabase = databaseAccess.getWritableDatabase();
+//
+//        // The ContentValues object create a map of values, where the columns are the keys
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put(ItemTable.COLUMN_NAME_NAME, item.getName());
+//        contentValues.put(ItemTable.COLUMN_NAME_DESCRIPTION, item.getDescription());
+//        contentValues.put(ItemTable.COLUMN_NAME_LOCATION, item.getLocation());
+//        contentValues.put(ItemTable.COLUMN_NAME_PHOTOPATH, item.getPhotoPath());
+//        contentValues.put(ItemTable.COLUMN_NAME_ID, item.getId());
+//
+//        // Insert the ContentValues into the Movie table.
+//        sqLiteDatabase.insert(ItemTable.TABLE_NAME, null, contentValues);
+//
+//        sqLiteDatabase.close();
     }
 
     @Override
