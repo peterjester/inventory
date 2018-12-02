@@ -136,7 +136,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         String description = getDescription();
         String beacon = getBeacon(); // unused currently
 
-        Item item = new Item(runningId++, itemName, description, location, mCurrentPhotoPath);
+        Item item = new Item(runningId++, itemName, description, location, currentImageFileName);
 
         itemPersistence.insert(item);
     }
