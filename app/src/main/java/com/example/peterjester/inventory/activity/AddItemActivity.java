@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,11 +19,18 @@ import android.widget.Toast;
 import com.example.peterjester.inventory.R;
 import com.example.peterjester.inventory.model.dao.ItemPersistence;
 import com.example.peterjester.inventory.model.entity.Item;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 public class AddItemActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -50,6 +58,10 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
 
     private Button addButton = null;
 
+    private StorageReference storageRef;
+    private StorageReference imageStorageReference;
+    String currentImageFileName = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +77,8 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
 
         imageView = findViewById(R.id.imageView);
         imageView.setOnClickListener(this);
+
+        storageRef = FirebaseStorage.getInstance().getReference();
     }
 
     @Override
@@ -122,7 +136,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         String description = getDescription();
         String beacon = getBeacon(); // unused currently
 
-        Item item = new Item(runningId++, itemName, description, location, mCurrentPhotoPath);
+        Item item = new Item(runningId++, itemName, description, location, currentImageFileName);
 
         itemPersistence.insert(item);
     }
@@ -172,6 +186,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
                         photoFile);
+
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
@@ -179,12 +194,10 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
+        currentImageFileName = imageFileName();
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
-                imageFileName,  /* prefix */
+                currentImageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
@@ -194,13 +207,44 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         return image;
     }
 
+    private String imageFileName() {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        return imageFileName;
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             capturedImage = BitmapFactory.decodeFile(mCurrentPhotoPath);
             imageView.setImageBitmap(capturedImage);
+
+            addBitmapToFirebaseStroage();
         }
     }
 
+    private void addBitmapToFirebaseStroage() {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        capturedImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        imageStorageReference = storageRef.child("images/" + currentImageFileName);
+
+        UploadTask uploadTask = imageStorageReference.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                // ...
+            }
+        });
+    }
 
 }

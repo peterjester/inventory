@@ -42,8 +42,6 @@ public class ItemPersistence implements IPersistence {
         // Cast the generic object to have access to the movie info.
         Item item = (Item) o;
 
-
-
         ref.child(auth.getUid()).child(item.getName()).setValue(item);
 
         /** Deprecated */

@@ -1,6 +1,8 @@
 package com.example.peterjester.inventory.adapter;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +12,23 @@ import android.widget.TextView;
 
 import com.example.peterjester.inventory.R;
 import com.example.peterjester.inventory.model.entity.Item;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> {
 
     private ArrayList mDataset;
+
+    StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+    StorageReference imageStorageReference = null;
+
+    Bitmap photo = null;
+
+    ImageView thumbnailView = null;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -62,8 +75,27 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         TextView locationView = (TextView) holder.listView.findViewById(R.id.locationView);
         locationView.setText(item.getLocation());
 
-        ImageView thumbnailView = holder.listView.findViewById(R.id.thumbnailImage);
-        thumbnailView.setImageBitmap(BitmapFactory.decodeFile(item.getPhotoPath()));
+        thumbnailView = holder.listView.findViewById(R.id.thumbnailImage);
+        retrieveBitmapFromFirebaseDatabaseForItem(item);
+    }
+
+    private void retrieveBitmapFromFirebaseDatabaseForItem(Item item) {
+        imageStorageReference = storageReference.child("images/" + item.getPhotoPath());
+
+        final long ONE_MEGABYTE = 1024 * 1024;
+        imageStorageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                photo = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                thumbnailView.setImageBitmap(photo);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)
