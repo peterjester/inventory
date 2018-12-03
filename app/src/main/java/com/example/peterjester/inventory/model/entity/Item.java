@@ -1,13 +1,15 @@
 package com.example.peterjester.inventory.model.entity;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
 
     private int id;
     private String name = null;
     private String description = null;
     private String location = null;
-//    private List<String> tags = null;
     private String photoPath = null;
+    private boolean checkedOut = false;
 
     public Item() {
         // default constructor
@@ -19,6 +21,7 @@ public class Item {
         this.description = description;
         this.location = location;
         this.photoPath = photoPath;
+        this.checkedOut = false;
 //        this.tags = tags;
     }
 
@@ -42,7 +45,10 @@ public class Item {
         return photoPath;
     }
 
-//    public List<String> getTags() {
-//        return tags;
-//    }
+    public boolean isCheckedOut() {
+        return checkedOut;
+    }
+
+    public void setCheckedOut() { checkedOut = !checkedOut; };
+
 }

@@ -18,7 +18,7 @@
         app:layout_constraintBottom_toTopOf="@+id/checkoutButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/beaconTextView"
+        app:layout_constraintTop_toBottomOf="@+id/geoLocationView"
         app:srcCompat="@android:drawable/btn_star_big_on" />
 
     <Button
@@ -78,20 +78,20 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="16dp"
         android:text="@string/location"
-        app:layout_constraintBottom_toTopOf="@+id/beaconTextView"
+        app:layout_constraintBottom_toTopOf="@+id/geoLocationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/descriptionTextView" />
 
     <TextView
-        android:id="@+id/beaconTextView"
+        android:id="@+id/geoLocationView"
         android:layout_width="0dp"
         android:layout_height="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/beacon"
+        android:text="@string/geolocation"
         app:layout_constraintBottom_toTopOf="@+id/imageInfoView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

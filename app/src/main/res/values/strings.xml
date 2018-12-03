@@ -26,7 +26,8 @@
     <string name="itemName">Item Name</string>
     <string name="location">Location</string>
     <string name="description">Description</string>
-    <string name="beacon">Beacon</string>
+    <string name="geolocation">GeoLocation</string>
+    <string name="beacon">beacon</string>
     <string name="tags">Tags</string>
 
     <!-- Button Strings -->

@@ -77,6 +77,9 @@ public class ViewAllActivity extends AppCompatActivity {
                         int itemPosition = mRecyclerView.getChildLayoutPosition(view);
                         Item item = items.get(itemPosition);
                         Intent intent = new Intent(ViewAllActivity.this, ItemInfo.class);
+
+                        // Pass the user info as paramater to the next activity.
+                        intent.putExtra("ITEM", item);
                         Toast.makeText(getApplicationContext(), item.getName(), Toast.LENGTH_LONG).show();
                         startActivity(intent);
                     }
