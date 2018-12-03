@@ -72,7 +72,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         locationView = findViewById(R.id.locationEditView);
         beaconView = findViewById(R.id.beaconEditView);
 
-        addButton = findViewById(R.id.addItemButton);
+        addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(this);
 
         imageView = findViewById(R.id.imageView);
@@ -92,7 +92,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
 
         switch (v.getId()){
             case R.id.imageView: dispatchTakePictureIntent(); break;
-            case R.id.addItemButton: add(); break;
+            case R.id.addButton: add(); break;
         }
 
     }
