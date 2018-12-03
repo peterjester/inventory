@@ -3,12 +3,14 @@ package com.example.peterjester.inventory.adapter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.content.Context;
 
 import com.example.peterjester.inventory.R;
 import com.example.peterjester.inventory.model.entity.Item;
@@ -19,84 +21,102 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> {
+public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     private ArrayList mDataset;
 
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     StorageReference imageStorageReference = null;
+    Context context;
 
-    Bitmap photo = null;
-
-    ImageView thumbnailView = null;
+    // Provide a suitable constructor (depends on the kind of dataset)
+    public ItemAdapter(ArrayList myDataset, Context context) {
+        mDataset = myDataset;
+        this.context = context;
+    }
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public View listView;
-        public MyViewHolder(View v) {
-            super(v);
-            listView = v;
+    // Creating inner class as ViewHolder
+    public class ViewHolder extends RecyclerView.ViewHolder{
+
+        // Elements defined in the UI
+        CardView parentLayout;
+
+        // For now, we don't need the imageView.
+        // The images will be customized later on.
+        ImageView thumbnailView = null;
+        Bitmap photo = null;
+
+        TextView locationView = null;
+        TextView nameView = null;
+        TextView descriptionView = null;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            parentLayout = itemView.findViewById(R.id.cardView);
+            thumbnailView = itemView.findViewById(R.id.thumbnailImage);
+            locationView = itemView.findViewById(R.id.locationView);
+            nameView = itemView.findViewById(R.id.itemNameView);
+            descriptionView = itemView.findViewById(R.id.descriptionView);
+        }
+
+        private void retrieveBitmapFromFirebaseDatabaseForItem(Item item) {
+            imageStorageReference = storageReference.child("images/" + item.getPhotoPath());
+
+            final long ONE_MEGABYTE = 1024 * 1024;
+            imageStorageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    photo = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    thumbnailView.setImageBitmap(photo);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+
         }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public ItemAdapter(ArrayList myDataset) {
-        mDataset = myDataset;
-    }
-
-    // Create new views (invoked by the layout manager)
+    // Methods inherited from ViewHolder
+    @NonNull
     @Override
-    public ItemAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                       int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         // create a new view
-        View v = (View) LayoutInflater.from(parent.getContext())
+        View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.custom_item_view, parent, false);
-        MyViewHolder vh = new MyViewHolder(v);
+        ViewHolder vh = new ViewHolder(v);
         return vh;
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
+    // The method implementaiton might change based on the root layout.
+    // Everytime a new item is inflated on the view it will be called.
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
 
         Item item = (Item) mDataset.get(position);
 
-        TextView nameView = (TextView) holder.listView.findViewById(R.id.itemNameView);
-        nameView.setText(item.getName());
+        viewHolder.descriptionView.setText(item.getDescription());
+        viewHolder.nameView.setText(item.getName());
+        viewHolder.locationView.setText(item.getLocation());
+        viewHolder.retrieveBitmapFromFirebaseDatabaseForItem(item);
 
-        TextView descriptionView = (TextView) holder.listView.findViewById(R.id.descriptionView);
-        descriptionView.setText(item.getDescription());
+        if(item.isCheckedOut()) {
+            viewHolder.parentLayout.setBackgroundColor(context.getResources().getColor(R.color.checkedOut));
+        }
+        else {
+            viewHolder.parentLayout.setBackgroundColor(context.getResources().getColor(R.color.cardview_light_background));
+        }
 
-        TextView locationView = (TextView) holder.listView.findViewById(R.id.locationView);
-        locationView.setText(item.getLocation());
-
-        thumbnailView = holder.listView.findViewById(R.id.thumbnailImage);
-        retrieveBitmapFromFirebaseDatabaseForItem(item);
-    }
-
-    private void retrieveBitmapFromFirebaseDatabaseForItem(Item item) {
-        imageStorageReference = storageReference.child("images/" + item.getPhotoPath());
-
-        final long ONE_MEGABYTE = 1024 * 1024;
-        imageStorageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                photo = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                thumbnailView.setImageBitmap(photo);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
 
     }
+
+
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override

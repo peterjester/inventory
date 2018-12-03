@@ -1,5 +1,6 @@
 package com.example.peterjester.inventory.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -32,6 +33,17 @@ public class ViewAllActivity extends AppCompatActivity {
     private ItemPersistence persistenceProfile = null;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all);
@@ -58,7 +70,7 @@ public class ViewAllActivity extends AppCompatActivity {
         persistenceProfile = new ItemPersistence();
         items = persistenceProfile.getDataFromDB();
 
-        this.mAdapter = new ItemAdapter(items);
+        this.mAdapter = new ItemAdapter(items, this);
 
         persistenceProfile.addAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(this);
@@ -75,7 +87,12 @@ public class ViewAllActivity extends AppCompatActivity {
                     @Override public void onItemClick(View view, int position) {
                         int itemPosition = mRecyclerView.getChildLayoutPosition(view);
                         Item item = items.get(itemPosition);
+                        Intent intent = new Intent(ViewAllActivity.this, ItemInfo.class);
+
+                        // Pass the user info as paramater to the next activity.
+                        intent.putExtra("ITEM", item);
                         Toast.makeText(getApplicationContext(), item.getName(), Toast.LENGTH_LONG).show();
+                        startActivity(intent);
                     }
 
                 })

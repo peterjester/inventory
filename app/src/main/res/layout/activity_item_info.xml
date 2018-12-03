@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemPhotoView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.AddItemActivity">
+
+    <ImageView
+        android:id="@+id/imageInfoView"
+        android:layout_width="282dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="17dp"
+        app:layout_constraintBottom_toTopOf="@+id/checkoutButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/geoLocationView"
+        app:srcCompat="@android:drawable/btn_star_big_on" />
+
+    <Button
+        android:id="@+id/checkoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="1dp"
+        android:text="@string/checkout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/removeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/remove"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/itemTextView"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/itemName"
+        app:layout_constraintBottom_toTopOf="@+id/descriptionTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/descriptionTextView"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/description"
+        app:layout_constraintBottom_toTopOf="@+id/locationTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemTextView" />
+
+    <TextView
+        android:id="@+id/locationTextView"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/location"
+        app:layout_constraintBottom_toTopOf="@+id/geoLocationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionTextView" />
+
+    <TextView
+        android:id="@+id/geoLocationView"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/geolocation"
+        app:layout_constraintBottom_toTopOf="@+id/imageInfoView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/locationTextView" />
+
+</android.support.constraint.ConstraintLayout>

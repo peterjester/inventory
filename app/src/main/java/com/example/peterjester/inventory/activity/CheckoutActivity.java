@@ -1,7 +1,7 @@
 package com.example.peterjester.inventory.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.peterjester.inventory.R;
 
@@ -11,5 +11,6 @@ public class CheckoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+
     }
 }

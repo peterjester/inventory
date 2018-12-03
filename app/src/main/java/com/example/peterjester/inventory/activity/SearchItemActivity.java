@@ -1,5 +1,6 @@
 package com.example.peterjester.inventory.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -84,7 +85,7 @@ public class SearchItemActivity extends AppCompatActivity {
         persistenceProfile = new ItemPersistence();
         items = persistenceProfile.getDataFromDB();
 
-        this.mAdapter = new ItemAdapter(items);
+        this.mAdapter = new ItemAdapter(items, this);
 
         persistenceProfile.addAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(this);
@@ -101,7 +102,12 @@ public class SearchItemActivity extends AppCompatActivity {
                     @Override public void onItemClick(View view, int position) {
                         int itemPosition = mRecyclerView.getChildLayoutPosition(view);
                         Item item = items.get(itemPosition);
+                        Intent intent = new Intent(SearchItemActivity.this, ItemInfo.class);
+
+                        // Pass the user info as paramater to the next activity.
+                        intent.putExtra("ITEM", item);
                         Toast.makeText(getApplicationContext(), item.getName(), Toast.LENGTH_LONG).show();
+                        startActivity(intent);
                     }
 
                 })
