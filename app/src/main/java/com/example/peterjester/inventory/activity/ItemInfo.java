@@ -73,7 +73,10 @@ public class ItemInfo extends AppCompatActivity {
     }
 
     private void checkoutItem() {
-        Toast.makeText(getApplicationContext(), "Checkout " + item.getName(), Toast.LENGTH_LONG).show();
+
+        String notice = item.isCheckedOut() ? "Checkin " : "Checkout ";
+
+        Toast.makeText(getApplicationContext(), notice + item.getName(), Toast.LENGTH_LONG).show();
         item.setCheckedOut();
         itemPersistence.insert(item);
         finish();
