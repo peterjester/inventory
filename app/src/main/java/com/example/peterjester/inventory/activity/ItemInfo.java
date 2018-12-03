@@ -46,6 +46,10 @@ public class ItemInfo extends AppCompatActivity {
         nameView = findViewById(R.id.itemTextView);
         descriptionView = findViewById(R.id.descriptionTextView);
         locationView = findViewById(R.id.locationTextView);
+
+        nameView.setText(item.getName());
+        descriptionView.setText(item.getDescription());
+        locationView.setText(item.getLocation());
     }
 
     private void setupListeners() {
@@ -66,15 +70,14 @@ public class ItemInfo extends AppCompatActivity {
 
     private void checkoutItem() {
         Toast.makeText(getApplicationContext(), "Checkout " + item.getName(), Toast.LENGTH_LONG).show();
-
         item.setCheckedOut();
-
         itemPersistence.insert(item);
-
     }
 
     private void removeItem() {
+        itemPersistence.delete(item);
         Toast.makeText(getApplicationContext(), "Remove " + item.getName(), Toast.LENGTH_LONG).show();
+        finish();
     }
 
 }

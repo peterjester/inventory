@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.content.Context;
 
 import com.example.peterjester.inventory.R;
 import com.example.peterjester.inventory.model.entity.Item;
@@ -26,10 +27,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     StorageReference imageStorageReference = null;
+    Context context;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ItemAdapter(ArrayList myDataset) {
+    public ItemAdapter(ArrayList myDataset, Context context) {
         mDataset = myDataset;
+        this.context = context;
     }
 
     // Provide a reference to the views for each data item
@@ -102,6 +105,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         viewHolder.nameView.setText(item.getName());
         viewHolder.locationView.setText(item.getLocation());
         viewHolder.retrieveBitmapFromFirebaseDatabaseForItem(item);
+
+        if(item.isCheckedOut()) {
+            viewHolder.parentLayout.setBackgroundColor(context.getResources().getColor(R.color.checkedOut));
+        }
+        else {
+            viewHolder.parentLayout.setBackgroundColor(context.getResources().getColor(R.color.cardview_light_background));
+        }
+
+
     }
 
 

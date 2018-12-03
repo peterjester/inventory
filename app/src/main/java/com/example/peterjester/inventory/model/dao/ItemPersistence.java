@@ -1,6 +1,5 @@
 package com.example.peterjester.inventory.model.dao;
 
-import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -24,7 +23,6 @@ public class ItemPersistence implements IPersistence {
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private FirebaseAuth auth = FirebaseAuth.getInstance();
-    ;
     DatabaseReference ref = database.getReference();
     ArrayList<Item> items = new ArrayList<>();
 
@@ -66,8 +64,11 @@ public class ItemPersistence implements IPersistence {
 
         Item item = (Item) o;
 
+        ref.child(auth.getUid()).child(item.getName()).removeValue();
+
+        /**Deprecated */
         // Define which column will be the parameter for deleting the record.
-        String selection = ItemTable.COLUMN_NAME_NAME + "LIKE ? ";
+//        String selection = ItemTable.COLUMN_NAME_NAME + "LIKE ? ";
 
         // Arguments must be identidied in the placehold order
 //        String [] selectionArgs = { item.getName().trim() };
@@ -94,9 +95,7 @@ public class ItemPersistence implements IPersistence {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 // Get the current location (based on the selected dataset available on firebase
                 Item item = dataSnapshot.getValue(Item.class);
-
                 items.add(item); // Adding a new element from the collection
-
 
                 /** Once the task runs assynchronously, we need to notify the adapter of
                  any changes in the dataset, so it will automatically update the UI. **/
@@ -113,7 +112,13 @@ public class ItemPersistence implements IPersistence {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 Log.d("hello database", "onChildRemoved: ");
-
+                Item removedItem = dataSnapshot.getValue(Item.class);
+                for(Item item : items) {
+                    if(item.getName().matches(removedItem.getName())) {
+                        items.remove(item);
+                    }
+                }
+                adapter.updateList(items);
             }
 
             @Override
@@ -185,7 +190,7 @@ public class ItemPersistence implements IPersistence {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 Log.d("hello database", "onChildRemoved: ");
-
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -234,15 +239,15 @@ public class ItemPersistence implements IPersistence {
 
     }
 
+/** Thar be deprecated code below */
+//    public Cursor getWordMatches(String query, String[] columns) {
+//        String selection = ItemTable.COLUMN_NAME_NAME + " MATCH ?";
+//        String[] selectionArgs = new String[] {query+"*"};
+//
+//        return query(selection, selectionArgs, columns);
+//    }
 
-    public Cursor getWordMatches(String query, String[] columns) {
-        String selection = ItemTable.COLUMN_NAME_NAME + " MATCH ?";
-        String[] selectionArgs = new String[] {query+"*"};
-
-        return query(selection, selectionArgs, columns);
-    }
-
-    private Cursor query(String selection, String[] selectionArgs, String[] columns) {
+//    private Cursor query(String selection, String[] selectionArgs, String[] columns) {
 //        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
 //        builder.setTables(ItemTable.TABLE_NAME);
 //
@@ -257,8 +262,8 @@ public class ItemPersistence implements IPersistence {
 //            cursor.close();
 //            return null;
 //        }
-        return null;
-    }
+//        return null;
+//    }
 
 
 }
