@@ -3,5 +3,9 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="checkedOut">#606c82</color>
+    <color name="checkedOut">#D3DCE6</color>
+    <color name="login">#13CE66</color>
+    <color name="niceBlue">#1FB6FF</color>
+    <color name="signup">#1FB6FF    </color>
+    <color name="aggroRed">#FF4949</color>
 </resources>

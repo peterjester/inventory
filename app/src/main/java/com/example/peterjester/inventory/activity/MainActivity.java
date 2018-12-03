@@ -12,7 +12,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Button searchButton = null;
     private Button addItemButton = null;
-    private Button beaconButton = null;
     private Button viewNearbyButton = null;
     private Button logoutButton = null;
     private Button viewAllButton = null;
@@ -24,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
         searchButton = findViewById(R.id.searchButton);
         addItemButton = findViewById(R.id.addItemButton);
-        beaconButton = findViewById(R.id.configureBeaconButton);
         viewNearbyButton = findViewById(R.id.viewNearbyItemsButton);
         logoutButton = findViewById(R.id.logoutButton);
         viewAllButton = findViewById(R.id.viewAllItems);
@@ -44,13 +42,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, AddItemActivity.class));
-            }
-        });
-
-        beaconButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CheckoutActivity.class));
             }
         });
 

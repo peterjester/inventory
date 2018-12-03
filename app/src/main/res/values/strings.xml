@@ -45,4 +45,6 @@
     <string name="checkedOutString">Items</string>
     <string name="checkedInString">Checkin</string>
 
+    <string name="welcome">Welcome!</string>
+
 </resources>
