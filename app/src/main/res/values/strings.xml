@@ -43,5 +43,6 @@
 
     <!--Checked Out Strings-->
     <string name="checkedOutString">Items</string>
+    <string name="checkedInString">Checkin</string>
 
 </resources>

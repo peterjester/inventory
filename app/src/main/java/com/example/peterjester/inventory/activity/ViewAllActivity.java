@@ -35,12 +35,12 @@ public class ViewAllActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        buildRecyclerView();
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        mAdapter.notifyDataSetChanged();
     }
 
     @Override

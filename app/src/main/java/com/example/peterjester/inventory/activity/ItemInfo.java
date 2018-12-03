@@ -50,6 +50,10 @@ public class ItemInfo extends AppCompatActivity {
         nameView.setText(item.getName());
         descriptionView.setText(item.getDescription());
         locationView.setText(item.getLocation());
+
+        if(item.isCheckedOut()) {
+            checkoutButton.setText(R.string.checkedInString);
+        }
     }
 
     private void setupListeners() {
@@ -72,6 +76,7 @@ public class ItemInfo extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Checkout " + item.getName(), Toast.LENGTH_LONG).show();
         item.setCheckedOut();
         itemPersistence.insert(item);
+        finish();
     }
 
     private void removeItem() {
