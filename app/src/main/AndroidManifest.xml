@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -42,18 +43,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.AddItemActivity" />
+        <activity android:name=".activity.AddItemActivity"
+            android:label="@string/addItemLabel"/>
         <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.MapActivity" />
         <activity
             android:name=".activity.CheckoutActivity"
             android:label="@string/checkedOutString" />
         <activity android:name=".activity.SignupActivity" />
-        <activity android:name=".activity.ViewAllActivity" />
-        <activity android:name=".activity.SearchItemActivity" />
-        <activity android:name=".activity.ItemInfo"></activity>
+        <activity android:name=".activity.ViewAllActivity"
+            android:label="@string/viewAllLabel"/>
+        <activity android:name=".activity.SearchItemActivity"
+            android:label="@string/searchItemLabel"/>
+        <activity android:name=".activity.ItemInfo"
+            android:label="@string/itemInfo"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCA1aMq7ek0HBMsfkXM6ZiH3bs9SbzsinI" />
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+
     </application>
+
 
 </manifest>
