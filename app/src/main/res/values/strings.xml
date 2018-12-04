@@ -46,6 +46,12 @@
     <string name="checkedOutString">Items</string>
     <string name="checkedInString">Checkin</string>
 
+    <!--labels-->
     <string name="welcome">Welcome!</string>
+    <string name="addItemLabel">Add Item</string>
+    <string name="searchItemLabel">Search for Item</string>
+    <string name="viewAllLabel">View All</string>
+    <string name="itemInfo">Item Info</string>
+
 
 </resources>

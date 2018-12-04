@@ -59,7 +59,6 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
     private EditText itemView = null;
     private EditText descriptionView = null;
     private EditText locationView = null;
-    private EditText beaconView = null;
     private ImageView imageView = null;
 
     private Button addButton = null;
@@ -81,7 +80,6 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         itemView = findViewById(R.id.itemEditView);
         descriptionView = findViewById(R.id.descriptionEditView);
         locationView = findViewById(R.id.locationEditView);
-        beaconView = findViewById(R.id.beaconEditView);
 
         addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(this);
@@ -149,7 +147,6 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         String location = locationView.getText().toString();
 
         String description = getDescription();
-        String beacon = getBeacon(); // unused currently
 
         Item item = new Item(runningId++, itemName, description, location, currentImageFileName, currentGeolocation);
 
@@ -169,21 +166,6 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
             description = descriptionView.getText().toString();
         }
         return description;
-    }
-
-    /**
-     * @brief fill in beacon if available, default if it isnt
-     * @warning this is primarily a placeholder, unless we hit our stretch goal
-     *          of implementing the beacon technoloy
-     * @return beacon
-     */
-    private String getBeacon() {
-        String beacon = "No description";
-
-        if(!beaconView.getText().toString().matches("" )) {
-            beacon = beaconView.getText().toString();
-        }
-        return beacon;
     }
 
     private void dispatchTakePictureIntent() {
