@@ -48,6 +48,14 @@ public class SearchItemActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        searchView.setQuery("", false);
+        searchView.clearFocus();
+        buildRecyclerView();
+    }
+
     private void setupListeners() {
         // perform set on query text listener event
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

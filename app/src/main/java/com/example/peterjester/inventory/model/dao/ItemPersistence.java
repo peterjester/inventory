@@ -106,19 +106,19 @@ public class ItemPersistence implements IPersistence {
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-
+            //hello
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 Log.d("hello database", "onChildRemoved: ");
-                Item removedItem = dataSnapshot.getValue(Item.class);
-                for(Item item : items) {
-                    if(item.getName().matches(removedItem.getName())) {
-                        items.remove(item);
-                    }
-                }
-                adapter.updateList(items);
+//                Item removedItem = dataSnapshot.getValue(Item.class);
+//                for(Item item : items) {
+//                    if(item.getName().matches(removedItem.getName())) {
+//                        items.remove(item);
+//                    }
+//                }
+//                adapter.updateList(items);
             }
 
             @Override
