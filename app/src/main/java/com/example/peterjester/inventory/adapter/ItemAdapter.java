@@ -110,10 +110,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         viewHolder.retrieveBitmapFromFirebaseDatabaseForItem(item);
 
         if(item.isCheckedOut()) {
-            viewHolder.parentLayout.setBackgroundColor(context.getResources().getColor(R.color.checkedOut));
+            viewHolder.parentLayout.setBackgroundColor(context.getResources().getColor(R.color.aggroRed));
         }
         else {
-            viewHolder.parentLayout.setBackgroundColor(context.getResources().getColor(R.color.cardview_light_background));
+            viewHolder.parentLayout.setBackgroundColor(context.getResources().getColor(R.color.niceBlue));
         }
 
     }
