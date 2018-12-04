@@ -2,7 +2,11 @@ package com.example.peterjester.inventory.model.entity;
 
 import android.location.Location;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.Serializable;
+
+import com.example.peterjester.inventory.model.entity.MapLocation;
 
 public class Item implements Serializable {
 
@@ -13,13 +17,13 @@ public class Item implements Serializable {
     private String photoPath = null;
     private boolean checkedOut = false;
 
-    private Location geolocation = null;
+    private MapLocation geolocation = null;
 
     public Item() {
         // default constructor
     }
 
-    public Item(int id, String name, String description, String location, String photoPath, Location geolocation) {
+    public Item(int id, String name, String description, String location, String photoPath, MapLocation geolocation) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -27,7 +31,6 @@ public class Item implements Serializable {
         this.photoPath = photoPath;
         this.checkedOut = false;
         this.geolocation = geolocation;
-//        this.tags = tags;
     }
 
     public int getId() {
@@ -56,7 +59,7 @@ public class Item implements Serializable {
 
     public void setCheckedOut() { checkedOut = !checkedOut; }
 
-    public Location getGeolocation() {
+    public MapLocation getGeolocation() {
         return geolocation;
     }
 
