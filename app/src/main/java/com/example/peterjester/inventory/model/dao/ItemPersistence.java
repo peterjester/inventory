@@ -26,8 +26,8 @@ public class ItemPersistence implements IPersistence {
     DatabaseReference ref = database.getReference();
     ArrayList<Item> items = new ArrayList<>();
 
-
     public ItemPersistence(){
+
     }
 
     public void addAdapter(ItemAdapter adapter) {
@@ -264,5 +264,8 @@ public class ItemPersistence implements IPersistence {
 //        return null;
 //    }
 
+    public ArrayList getList() {
+        return items;
+    }
 
 }

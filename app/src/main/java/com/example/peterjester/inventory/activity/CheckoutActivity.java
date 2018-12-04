@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -17,7 +18,6 @@ import android.widget.Toast;
 
 import com.example.peterjester.inventory.R;
 import com.example.peterjester.inventory.adapter.ItemAdapter;
-import com.example.peterjester.inventory.model.dao.ItemPersistence;
 import com.example.peterjester.inventory.model.entity.Item;
 import com.example.peterjester.inventory.model.entity.MapLocation;
 import com.example.peterjester.inventory.recycler.RecyclerOnItemClickListener;
@@ -26,8 +26,16 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class CheckoutActivity extends AppCompatActivity {
 
@@ -37,13 +45,18 @@ public class CheckoutActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<Item> items;
+    private ArrayList<Item> items = new ArrayList<>();
 
     private FusedLocationProviderClient mFusedLocationClient;
     private MapLocation currentGeolocation = null;
     final int userAgreePermissionCode = 1;
 
-    private ItemPersistence persistenceProfile = null;
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    DatabaseReference ref = database.getReference();
+
+    private boolean didLoadFirebase = false;
+    private boolean didLoadLocation = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,35 +79,21 @@ public class CheckoutActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onContentChanged() {
+        super.onContentChanged();
+       // hello world
+    }
+
     /** Building the RecyclerView and RecyclerViewAdapter based on the dataset. **/
     private void buildRecyclerView() {
         Log.i(TAG_RECYCLER, "buildRecyclerView:called");
         this.mRecyclerView = findViewById(R.id.viewAllView);
 
-        persistenceProfile = new ItemPersistence();
-        items = persistenceProfile.getDataFromDB();
-
-
-        for (Item item : items) {
-            if(item.getGeolocation() != null) {
-
-                Location currentLoc = new Location("");
-                currentLoc.setLatitude(Double.parseDouble(currentGeolocation.getLatitude()));
-                currentLoc.setLongitude(Double.parseDouble(currentGeolocation.getLongitude()));
-                Location itemLoc = new Location("");
-                itemLoc.setLatitude(Double.parseDouble(item.getGeolocation().getLatitude()));
-                itemLoc.setLongitude(Double.parseDouble(item.getGeolocation().getLongitude()));
-
-                float distance = currentLoc.distanceTo(itemLoc);
-
-                String test = String.format("%.02f", distance);
-                Log.e("String", test);
-            }
-        }
+        firebaseLoadData();
 
         this.mAdapter = new ItemAdapter(items, this);
 
-        persistenceProfile.addAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(this);
         this.mRecyclerView.setLayoutManager(mLayoutManager);
         this.mRecyclerView.setHasFixedSize(true);
@@ -133,6 +132,7 @@ public class CheckoutActivity extends AppCompatActivity {
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
                             currentGeolocation = new MapLocation(Double.toString(location.getLatitude()), Double.toString(location.getLongitude()));
+                            didLoadLocation = true;
                             buildRecyclerView();
                         }
                     }
@@ -148,5 +148,86 @@ public class CheckoutActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * @brief Had to ditch using the persistence profile and call the db here because
+     *          the data was never returned in time.
+     * @return
+     */
+    public ArrayList firebaseLoadData() {
+
+        // Read from the database
+        ref.child(auth.getUid()).addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                // Get the current location (based on the selected dataset available on firebase
+                Item item = dataSnapshot.getValue(Item.class);
+                if(item.getGeolocation() != null) {
+                    items.add(item); // Adding a new element from the collection
+                    if(didLoadLocation) {
+                        items = sortItemsLocations(items, currentGeolocation);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                //hello
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                Log.d("hello database", "onChildRemoved: ");
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("hello database", "onChildRemoved: ");
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("On cancelled", "Failed to read value.", error.toException());
+            }
+
+        });
+
+        return items;
+    }
+
+    public static ArrayList<Item> sortItemsLocations(ArrayList<Item> locations, final MapLocation myLocation) {
+        Comparator comp = new Comparator<Item>() {
+            @Override
+            public int compare(Item o, Item o2) {
+                float[] result1 = new float[3];
+                android.location.Location.distanceBetween(Double.parseDouble(myLocation.getLatitude()),
+                        Double.parseDouble(myLocation.getLongitude()),
+                        Double.parseDouble(o.getGeolocation().getLatitude()),
+                        Double.parseDouble(o.getGeolocation().getLongitude()),
+                        result1);
+                Float distance1 = result1[0];
+
+                float[] result2 = new float[3];
+                android.location.Location.distanceBetween(Double.parseDouble(myLocation.getLatitude()),
+                        Double.parseDouble(myLocation.getLongitude()),
+                        Double.parseDouble(o2.getGeolocation().getLatitude()),
+                        Double.parseDouble(o2.getGeolocation().getLongitude()),
+                        result2);
+                Float distance2 = result2[0];
+
+                return distance1.compareTo(distance2);
+            }
+        };
+
+
+        Collections.sort(locations, comp);
+        return locations;
+    }
 
 }
