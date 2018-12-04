@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.peterjester.inventory.R;
 import com.example.peterjester.inventory.model.dao.ItemPersistence;
 import com.example.peterjester.inventory.model.entity.Item;
+import com.example.peterjester.inventory.model.entity.MapLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -68,7 +69,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
     String currentImageFileName = null;
 
     private FusedLocationProviderClient mFusedLocationClient;
-    private Location currentGeolocation = null;
+    private MapLocation currentGeolocation = null;
 
     final int userAgreePermissionCode = 1;
 
@@ -274,7 +275,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
-                            currentGeolocation = location;
+                            currentGeolocation = new MapLocation(Double.toString(location.getLatitude()), Double.toString(location.getLongitude()));
                         }
                     }
                 });
