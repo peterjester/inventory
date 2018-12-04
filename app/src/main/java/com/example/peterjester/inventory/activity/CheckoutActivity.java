@@ -64,30 +64,33 @@ public class CheckoutActivity extends AppCompatActivity {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         getCurrentLocation();
 
-
-        buildRecyclerView();
-
     }
 
     /** Building the RecyclerView and RecyclerViewAdapter based on the dataset. **/
-    private void buildRecyclerView(){
-        Log.i(TAG_RECYCLER, "buildRecyclerView:called" );
+    private void buildRecyclerView() {
+        Log.i(TAG_RECYCLER, "buildRecyclerView:called");
         this.mRecyclerView = findViewById(R.id.viewAllView);
 
         persistenceProfile = new ItemPersistence();
         items = persistenceProfile.getDataFromDB();
 
-        Location currentLoc = new Location("");
-        currentLoc.setLatitude(Double.parseDouble(currentGeolocation.getLatitude()));
-        currentLoc.setLongitude(Double.parseDouble(currentGeolocation.getLongitude()));
-        Location itemLoc = new Location("");
-        itemLoc.setLatitude(Double.parseDouble(items.get(0).getGeolocation().getLatitude()));
-        itemLoc.setLongitude(Double.parseDouble(items.get(0).getGeolocation().getLongitude()));
 
-        float distance = currentLoc.distanceTo(itemLoc);
+        for (Item item : items) {
+            if(item.getGeolocation() != null) {
 
-        String test = String.format("%.02f", distance);
-        Log.e("String", test);
+                Location currentLoc = new Location("");
+                currentLoc.setLatitude(Double.parseDouble(currentGeolocation.getLatitude()));
+                currentLoc.setLongitude(Double.parseDouble(currentGeolocation.getLongitude()));
+                Location itemLoc = new Location("");
+                itemLoc.setLatitude(Double.parseDouble(item.getGeolocation().getLatitude()));
+                itemLoc.setLongitude(Double.parseDouble(item.getGeolocation().getLongitude()));
+
+                float distance = currentLoc.distanceTo(itemLoc);
+
+                String test = String.format("%.02f", distance);
+                Log.e("String", test);
+            }
+        }
 
         this.mAdapter = new ItemAdapter(items, this);
 
@@ -130,6 +133,7 @@ public class CheckoutActivity extends AppCompatActivity {
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
                             currentGeolocation = new MapLocation(Double.toString(location.getLatitude()), Double.toString(location.getLongitude()));
+                            buildRecyclerView();
                         }
                     }
                 });
