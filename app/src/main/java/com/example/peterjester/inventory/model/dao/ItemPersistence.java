@@ -86,7 +86,6 @@ public class ItemPersistence implements IPersistence {
     @Override
     public ArrayList getDataFromDB() {
 
-        // Create ArrayList of movies
 
         // Read from the database
         ref.child(auth.getUid()).addChildEventListener(new ChildEventListener() {
