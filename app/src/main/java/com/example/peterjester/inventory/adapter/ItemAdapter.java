@@ -64,22 +64,25 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         }
 
         private void retrieveBitmapFromFirebaseDatabaseForItem(Item item) {
-            imageStorageReference = storageReference.child("images/" + item.getPhotoPath());
 
-            final long ONE_MEGABYTE = 1024 * 1024;
-            imageStorageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                @Override
-                public void onSuccess(byte[] bytes) {
-                    photo = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    thumbnailView.setImageBitmap(photo);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle any errors
-                }
-            });
+            if (item.getPhotoPath() != null) {
+                imageStorageReference = storageReference.child("images/" + item.getPhotoPath());
 
+                final long ONE_MEGABYTE = 1024 * 1024;
+                imageStorageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        photo = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        thumbnailView.setImageBitmap(photo);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
+                    }
+                });
+
+            }
         }
     }
 
@@ -113,10 +116,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             viewHolder.parentLayout.setBackgroundColor(context.getResources().getColor(R.color.cardview_light_background));
         }
 
-
     }
-
-
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
