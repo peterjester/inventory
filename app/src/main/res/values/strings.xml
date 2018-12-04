@@ -21,6 +21,7 @@
     <string name="logout">Log out</string>
 
     <!-- Item Info Activity Strings -->
+    <string name="viewOnMap">View On Map</string>
 
     <!-- Text View Strings -->
     <string name="itemName">Item Name</string>
