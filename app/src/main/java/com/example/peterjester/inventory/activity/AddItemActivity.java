@@ -1,13 +1,16 @@
 package com.example.peterjester.inventory.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -19,6 +22,8 @@ import android.widget.Toast;
 import com.example.peterjester.inventory.R;
 import com.example.peterjester.inventory.model.dao.ItemPersistence;
 import com.example.peterjester.inventory.model.entity.Item;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -62,6 +67,11 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
     private StorageReference imageStorageReference;
     String currentImageFileName = null;
 
+    private FusedLocationProviderClient mFusedLocationClient;
+    private Location currentGeolocation = null;
+
+    final int userAgreePermissionCode = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +89,10 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         imageView.setOnClickListener(this);
 
         storageRef = FirebaseStorage.getInstance().getReference();
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        getCurrentLocation();
+
     }
 
     @Override
@@ -140,6 +154,8 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
 
         itemPersistence.insert(item);
     }
+
+
 
     /**
      * @brief fill in description if its there, default if it isnt
@@ -245,6 +261,32 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
                 // ...
             }
         });
+    }
+
+    private void getCurrentLocation() {
+
+        int currentPermission = ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION);
+        if( currentPermission!=PackageManager.PERMISSION_GRANTED ) ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, userAgreePermissionCode);
+
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            currentGeolocation = location;
+                        }
+                    }
+                });
+
+        mFusedLocationClient.getLastLocation()
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // on fail
+                    }
+                });
+
     }
 
 }
