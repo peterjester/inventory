@@ -26,8 +26,8 @@ public class ItemPersistence implements IPersistence {
     DatabaseReference ref = database.getReference();
     ArrayList<Item> items = new ArrayList<>();
 
-
     public ItemPersistence(){
+
     }
 
     public void addAdapter(ItemAdapter adapter) {
@@ -86,7 +86,6 @@ public class ItemPersistence implements IPersistence {
     @Override
     public ArrayList getDataFromDB() {
 
-        // Create ArrayList of movies
 
         // Read from the database
         ref.child(auth.getUid()).addChildEventListener(new ChildEventListener() {
@@ -265,5 +264,8 @@ public class ItemPersistence implements IPersistence {
 //        return null;
 //    }
 
+    public ArrayList getList() {
+        return items;
+    }
 
 }
