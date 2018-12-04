@@ -1,5 +1,7 @@
 package com.example.peterjester.inventory.model.entity;
 
+import android.location.Location;
+
 import java.io.Serializable;
 
 public class Item implements Serializable {
@@ -11,17 +13,20 @@ public class Item implements Serializable {
     private String photoPath = null;
     private boolean checkedOut = false;
 
+    private Location geolocation = null;
+
     public Item() {
         // default constructor
     }
 
-    public Item(int id, String name, String description, String location, String photoPath) {
+    public Item(int id, String name, String description, String location, String photoPath, Location geolocation) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.location = location;
         this.photoPath = photoPath;
         this.checkedOut = false;
+        this.geolocation = geolocation;
 //        this.tags = tags;
     }
 
@@ -49,6 +54,10 @@ public class Item implements Serializable {
         return checkedOut;
     }
 
-    public void setCheckedOut() { checkedOut = !checkedOut; };
+    public void setCheckedOut() { checkedOut = !checkedOut; }
+
+    public Location getGeolocation() {
+        return geolocation;
+    }
 
 }
